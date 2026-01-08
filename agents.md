@@ -49,11 +49,14 @@ IndexTTS2 é o motor TTS para produção de animes no **Anime-Studio-Auto**:
 
 ### PC Windows (Fonte de Dados)
 
-**Host:** `DESKTOP-5FKDHQF` | **IP:** `100.66.250.109`
+**Host:** `DESKTOP-5FKDHQF` | **IP:** `100.66.250.109` | **Alias SSH:** `windows-local`
 
 ```bash
-# Acesso SSH (Windows OpenSSH Server)
-sshpass -p 'nvidia@amd' ssh user@100.66.250.109
+# Acesso SSH por Certificado (sem senha!)
+ssh windows-local
+
+# Ou explicitamente:
+ssh user@100.66.250.109
 
 # Localização do AnimeWwise (12TB drive E:)
 # E:\AnimeWwise\Genshin_JP\vo_freetalk\vo_*
@@ -483,8 +486,8 @@ tts.infer(
 
 ## 📝 HISTÓRICO
 
-| Data       | Mudança                              |
-| ---------- | ------------------------------------ |
-| 2026-01-07 | LoRA Factory architecture documented |
-| 2026-01-05 | Projeto clonado e configurado        |
+| Data       | Mudança                                                         |
+| ---------- | --------------------------------------------------------------- |
+| 2026-01-07 | LoRA Factory architecture documented                            |
+| 2026-01-05 | Projeto clonado e configurado                                   |
 | 2026-01-08 | Arquitetura remota documentada (dev-remote-01 + PC Windows SSH) |

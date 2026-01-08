@@ -1,6 +1,6 @@
 # Agents Instructions - IndexTTS2
 
-> **Última Atualização:** 2026-01-05
+> **Última Atualização:** 2026-01-08
 > **Projeto:** IndexTTS2 - Text-to-Speech para **Anime Studio Auto**
 
 ---
@@ -36,15 +36,37 @@ IndexTTS2 é o motor TTS para produção de animes no **Anime-Studio-Auto**:
 
 ### Servidores Disponíveis (IPs Tailscale)
 
-| Servidor | Tailscale IP | Hardware | Uso no Pipeline |
-|----------|--------------|----------|-----------------|
-| **gpu-node-4090** | `100.114.21.15` | RTX 4090 24GB | **IndexTTS2 + Wan T2V** (Producer) |
-| **gpu-node-3090** | `100.86.51.120` | 2x RTX 3090 48GB | Cosmos Reason + ComfyUI (Inspector) |
-| **data-services-01** | `100.103.114.73` | VM Linux | PostgreSQL, Redis, Control Plane |
-| **gpac-teste-01** | `100.67.24.51` | 32 cores, 787GB RAM | LLM Qwen3-235B (Roteiros) |
-| **minio-01~04** | `100.109.125.15` | Cluster 4 nodes | MinIO Object Storage (Assets) |
-| **macmini-m4-01** | `100.72.90.72` | M4 16GB | MLX LLM API, Host WoL |
-| **windows-4090** | `100.67.187.14` | RTX 4090 Win | DaVinci Resolve (Edição Final) |
+| Servidor             | Tailscale IP     | Hardware            | Uso no Pipeline                           |
+| -------------------- | ---------------- | ------------------- | ----------------------------------------- |
+| **dev-remote-01**    | `10.41.80.17`    | VM Linux            | **Desenvolvimento Principal** (IndexTTS2) |
+| **gpu-node-4090**    | `100.114.21.15`  | RTX 4090 24GB       | IndexTTS2 + Wan T2V (Producer)            |
+| **gpu-node-3090**    | `100.86.51.120`  | 2x RTX 3090 48GB    | Cosmos Reason + ComfyUI (Inspector)       |
+| **data-services-01** | `100.103.114.73` | VM Linux            | PostgreSQL, Redis, Control Plane          |
+| **gpac-teste-01**    | `100.67.24.51`   | 32 cores, 787GB RAM | LLM Qwen3-235B (Roteiros)                 |
+| **minio-01~04**      | `100.109.125.15` | Cluster 4 nodes     | MinIO Object Storage (Assets)             |
+| **macmini-m4-01**    | `100.72.90.72`   | M4 16GB             | MLX LLM API, Host WoL                     |
+| **windows-wsl**      | `100.66.250.109` | RTX 5060 Ti Win     | Fonte de Dados (AnimeWwise)               |
+
+### PC Windows (Fonte de Dados)
+
+**Host:** `DESKTOP-5FKDHQF` | **IP:** `100.66.250.109`
+
+```bash
+# Acesso SSH (Windows OpenSSH Server)
+sshpass -p 'nvidia@amd' ssh user@100.66.250.109
+
+# Localização do AnimeWwise (12TB drive E:)
+# E:\AnimeWwise\Genshin_JP\vo_freetalk\vo_*
+# E:\AnimeWwise\ZZZ_JP\*
+```
+
+**Datasets Disponíveis:**
+| Dataset    | Personagens | Caminho Windows                         |
+| ---------- | ----------- | --------------------------------------- |
+| Genshin_JP | 110+ chars  | `E:\AnimeWwise\Genshin_JP\vo_freetalk\` |
+| Genshin_EN | ~100 chars  | `E:\AnimeWwise\Genshin_EN\`             |
+| ZZZ_JP     | Ver 1.4-2.2 | `E:\AnimeWwise\ZZZ_JP\`                 |
+| ZZZ_EN     | Ver 1.4-2.2 | `E:\AnimeWwise\ZZZ_EN\`                 |
 
 ### GPU Principal: `gpu-node-4090` (100.114.21.15)
 
@@ -163,12 +185,12 @@ tts.infer(
 > Fonte: Perplexity + Context7 (IndexTTS, index-tts-lora)
 
 ### Áudio de Referência (Voice Cloning)
-| Parâmetro | Recomendação |
-|-----------|--------------|
-| **Duração** | 3-10 segundos (máx ~1:30) |
-| **Sample Rate** | 16kHz+ (24kHz ideal) |
-| **Qualidade** | Áudio limpo, sem ruído/eco |
-| **Conteúdo** | Fala contínua, emoção neutra |
+| Parâmetro       | Recomendação                 |
+| --------------- | ---------------------------- |
+| **Duração**     | 3-10 segundos (máx ~1:30)    |
+| **Sample Rate** | 16kHz+ (24kHz ideal)         |
+| **Qualidade**   | Áudio limpo, sem ruído/eco   |
+| **Conteúdo**    | Fala contínua, emoção neutra |
 
 ⚠️ **Textos longos**: Segmentar para evitar degradação de qualidade.
 
@@ -210,11 +232,11 @@ tts.infer(
 
 ### Otimização de Inferência
 
-| Flag | Efeito | Recomendação |
-|------|--------|--------------|
-| `use_fp16=True` | -50% VRAM, +velocidade | ✅ **Sempre usar** |
-| `use_cuda_kernel=True` | Kernels CUDA compilados | ⚠️ Requer build |
-| `use_deepspeed=True` | Acelera autogressivo | ⚠️ Pode ser mais lento em alguns casos |
+| Flag                   | Efeito                  | Recomendação                          |
+| ---------------------- | ----------------------- | ------------------------------------- |
+| `use_fp16=True`        | -50% VRAM, +velocidade  | ✅ **Sempre usar**                     |
+| `use_cuda_kernel=True` | Kernels CUDA compilados | ⚠️ Requer build                        |
+| `use_deepspeed=True`   | Acelera autogressivo    | ⚠️ Pode ser mais lento em alguns casos |
 
 ### LoRA Fine-Tuning (Vozes Personalizadas)
 
@@ -378,13 +400,26 @@ uv sync --all-extras --upgrade
 
 Sistema para criar vozes originais misturando áudios de jogos (Genshin + ZZZ).
 
-### Arquitetura
+### Arquitetura Remota
 ```
-Windows (E:\AnimeWwise)          WSL Pipeline              S3 MinIO
-├─ Genshin_JP (110+ chars)  →   batch_ingest.py    →    voice-loras/
-├─ Genshin_EN               →   voice_mixer.py     →    ├─ female/
-├─ ZZZ_JP (Ver1.4-2.2)      →   train_gpt_v2.py    →    └─ male/
-└─ ZZZ_EN                                               emotion-samples/
+PC Windows (100.66.250.109)        VM dev-remote-01           GPU gpu-node
+E:\AnimeWwise\                     (Desenvolvimento)          (Treinamento)
+├─ Genshin_JP (110+ chars)  ──SSH──►  source_audio/    ──►   trained_ckpts/
+├─ Genshin_EN               ──────►  batch_ingest.py   ──►   S3 MinIO
+├─ ZZZ_JP (Ver1.4-2.2)      ──────►  voice_mixer.py    ──►   voice-loras/
+└─ ZZZ_EN                                                   emotion-samples/
+```
+
+### Comandos de Sincronização (dev-remote-01 → PC Windows)
+```bash
+# Testar conexão
+sshpass -p 'nvidia@amd' ssh user@100.66.250.109 "dir E:\\AnimeWwise"
+
+# Copiar personagem específico
+sshpass -p 'nvidia@amd' scp -r user@100.66.250.109:"E:\\AnimeWwise\\Genshin_JP\\vo_freetalk\\vo_ayaka\\*" source_audio/vo_ayaka/
+
+# Listar personagens disponíveis
+sshpass -p 'nvidia@amd' ssh user@100.66.250.109 "dir E:\\AnimeWwise\\Genshin_JP\\vo_freetalk"
 ```
 
 ### Convenção de Nomes
@@ -397,10 +432,11 @@ Windows (E:\AnimeWwise)          WSL Pipeline              S3 MinIO
 ### ⚠️ GPU REQUIREMENT (CRÍTICO)
 ```
 TREINAMENTO DEVE SER EXECUTADO NO gpu-node (RTX 4090)
-IP: 192.168.31.200
+IP: 192.168.31.200 / 100.114.21.15 (Tailscale)
 SSH: ssh vmadmin@192.168.31.200
 
-NÃO USAR: Máquina local (5060 Ti) - apenas para desenvolvimento/testes
+DESENVOLVIMENTO: dev-remote-01 (10.41.80.17)
+FONTE DE DADOS: PC Windows (100.66.250.109)
 ```
 
 ### Tokenizer
@@ -435,19 +471,20 @@ tts.infer(
 ```
 
 ### Candidatos Femininos (JP)
-| Personagem | Timbre | Path |
-|------------|--------|------|
-| Ayaka | Elegante, Suave | `vo_ayaka` |
-| Hu Tao | Energética, Aguda | `vo_hutao` |
-| Raiden | Autoritária, Grave | `vo_raidenshogun` |
-| Yae Miko | Sedutora, Misteriosa | `vo_yaemiko` |
-| Ganyu | Doce, Calma | `vo_ganyu` |
+| Personagem | Timbre               | Path              |
+| ---------- | -------------------- | ----------------- |
+| Ayaka      | Elegante, Suave      | `vo_ayaka`        |
+| Hu Tao     | Energética, Aguda    | `vo_hutao`        |
+| Raiden     | Autoritária, Grave   | `vo_raidenshogun` |
+| Yae Miko   | Sedutora, Misteriosa | `vo_yaemiko`      |
+| Ganyu      | Doce, Calma          | `vo_ganyu`        |
 
 ---
 
 ## 📝 HISTÓRICO
 
-| Data | Mudança |
-|------|---------|
+| Data       | Mudança                              |
+| ---------- | ------------------------------------ |
 | 2026-01-07 | LoRA Factory architecture documented |
-| 2026-01-05 | Projeto clonado e configurado |
+| 2026-01-05 | Projeto clonado e configurado        |
+| 2026-01-08 | Arquitetura remota documentada (dev-remote-01 + PC Windows SSH) |

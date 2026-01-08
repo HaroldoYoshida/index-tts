@@ -1,0 +1,10 @@
+{
+  "id": "mix_05_m_jp",
+  "type": "mixed",
+  "sources": [
+    "gen_zhongli_m_jp",
+    "gen_diluc_m_jp"
+  ],
+  "gender": "m",
+  "sample_count": 40
+}

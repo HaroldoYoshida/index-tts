@@ -1,0 +1,13 @@
+uv run python tools/preprocess_data.py `
+    --tokenizer checkpoints/bpe_multilingual.model `
+    --config checkpoints/config_finetune.yaml `
+    --gpt-checkpoint checkpoints/gpt.pth `
+    --device cuda `
+    --batch-size 1 `
+    --workers 1 `
+    --dataset en=datasets/EN_yodas_dataset/en_yodas_train.jsonl `
+    --dataset fr=datasets/FR_yodas_dataset/fr_yodas_train.jsonl `
+    --dataset de=datasets/DE_yodas_dataset/de_yodas_train.jsonl `
+    --dataset ko=datasets/KO_yodas_dataset/ko_yodas_train.jsonl `
+    --dataset zh=datasets/ZH_yodas_dataset/zh_yodas_train.jsonl `
+    --skip-existing

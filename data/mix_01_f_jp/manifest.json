@@ -1,0 +1,10 @@
+{
+  "id": "mix_01_f_jp",
+  "type": "mixed",
+  "sources": [
+    "gen_ayaka_f_jp",
+    "gen_hutao_f_jp"
+  ],
+  "gender": "f",
+  "sample_count": 19
+}

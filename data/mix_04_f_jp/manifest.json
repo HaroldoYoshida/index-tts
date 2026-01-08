@@ -1,0 +1,10 @@
+{
+  "id": "mix_04_f_jp",
+  "type": "mixed",
+  "sources": [
+    "gen_keqing_f_jp",
+    "gen_ganyu_f_jp"
+  ],
+  "gender": "f",
+  "sample_count": 10
+}

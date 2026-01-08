@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "description": "Character catalog for Multi-Character LoRA Factory",
+  "source_base": "/mnt/e/AnimeWwise",
+  "characters": [
+    {"id": "gen_ayaka_f_jp", "game": "gen", "name": "Ayaka", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_ayaka", "timbre": "elegant, soft, noble"},
+    {"id": "gen_hutao_f_jp", "game": "gen", "name": "Hu Tao", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_hutao", "timbre": "energetic, playful, high-pitched"},
+    {"id": "gen_raiden_f_jp", "game": "gen", "name": "Raiden Shogun", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_raidenshogun", "timbre": "authoritative, mature, deep"},
+    {"id": "gen_yaemiko_f_jp", "game": "gen", "name": "Yae Miko", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_yaemiko", "timbre": "seductive, mysterious, playful"},
+    {"id": "gen_ganyu_f_jp", "game": "gen", "name": "Ganyu", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_ganyu", "timbre": "sweet, calm, shy"},
+    {"id": "gen_yoimiya_f_jp", "game": "gen", "name": "Yoimiya", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_yoimiya", "timbre": "extroverted, festive"},
+    {"id": "gen_furina_f_jp", "game": "gen", "name": "Furina", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_furina", "timbre": "dramatic, theatrical"},
+    {"id": "gen_nahida_f_jp", "game": "gen", "name": "Nahida", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_nahida", "timbre": "gentle, wise, childlike"},
+    {"id": "gen_keqing_f_jp", "game": "gen", "name": "Keqing", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_keqing", "timbre": "serious, professional"},
+    {"id": "gen_kokomi_f_jp", "game": "gen", "name": "Kokomi", "gender": "f", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_kokomi", "timbre": "calm, strategic"},
+
+    {"id": "gen_zhongli_m_jp", "game": "gen", "name": "Zhongli", "gender": "m", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_zhongli", "timbre": "deep, wise, regal"},
+    {"id": "gen_diluc_m_jp", "game": "gen", "name": "Diluc", "gender": "m", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_diluc", "timbre": "serious, cool"},
+    {"id": "gen_xiao_m_jp", "game": "gen", "name": "Xiao", "gender": "m", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_xiao", "timbre": "cold, distant"},
+    {"id": "gen_kazuha_m_jp", "game": "gen", "name": "Kazuha", "gender": "m", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_kazuha", "timbre": "gentle, poetic"},
+    {"id": "gen_ayato_m_jp", "game": "gen", "name": "Ayato", "gender": "m", "lang": "jp", "source": "Genshin_JP/vo_freetalk/vo_ayato", "timbre": "elegant, refined"},
+
+    {"id": "zzz_anbi_f_jp", "game": "zzz", "name": "Anbi", "gender": "f", "lang": "jp", "source": "ZZZ_JP/Ex/Vo_Accompany", "timbre": "calm, professional"},
+    {"id": "zzz_anbi_f_en", "game": "zzz", "name": "Anbi", "gender": "f", "lang": "en", "source": "ZZZ_EN/Ex/Vo_Accompany", "timbre": "calm, professional"}
+  ]
+}

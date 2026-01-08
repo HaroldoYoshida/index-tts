@@ -1,0 +1,10 @@
+{
+  "id": "mix_03_f_jp",
+  "type": "mixed",
+  "sources": [
+    "gen_furina_f_jp",
+    "gen_nahida_f_jp"
+  ],
+  "gender": "f",
+  "sample_count": 20
+}

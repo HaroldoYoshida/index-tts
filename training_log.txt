@@ -1,0 +1,13 @@
+🏭 LoRA Factory Training
+  Character: mix_01_f_jp
+  Epochs: 15
+  Data: /home/vmadmin/projects/IndexTTS2/data/mix_01_f_jp
+  Output: /home/vmadmin/projects/IndexTTS2/trained_ckpts/mix_01_f_jp
+---
+  Language: jp -> ja
+⚙️  Preprocessing needed...
+  🧠 Extracting semantic features...
+/home/vmadmin/projects/IndexTTS2/.venv/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/home/vmadmin/projects/IndexTTS2/.venv/lib/python3.10/site-packages/transformers/configuration_utils.py:312: UserWarning: Passing `gradient_checkpointing` to a config initialization is deprecated and will be removed in v5 Transformers. Using `model.gradient_checkpointing_enable()` instead, or if you are using the `Trainer` API, pass `gradient_checkpointing=True` in your `TrainingArguments`.
+  warnings.warn(

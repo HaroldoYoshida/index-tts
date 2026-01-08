@@ -1,0 +1,14 @@
+uv run python tools/preprocess_multiproc.py `
+    --manifest datasets/italian_emilia_dataset/italian_transcribed.jsonl `
+    --output-dir italian_processed_data `
+    --tokenizer checkpoints/italian_bpe.model `
+    --config checkpoints/config_finetune.yaml `
+    --gpt-checkpoint checkpoints/gpt.pth `
+    --language it `
+    --device cuda `
+    --batch-size 1 `
+    --workers 1 `
+    --num-processes 1 `
+    --launch-delay 20 `
+    --skip-existing `
+    --val-ratio 0.01
